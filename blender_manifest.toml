@@ -1,0 +1,26 @@
+schema_version = "1.0.0"
+
+id = "only_blends_core"
+version = "0.1.0"
+name = "OnlyBlends.Core"
+tagline = "An extension to make Blender an interactiv experience"
+maintainer = "Zulhakar (ChangeGamer) <Ilineiros@proton.me>"
+type = "add-on"
+website = "e"
+tags = ["Game Engine", "Geometry Nodes"]
+blender_version_min = "4.2.0"
+license = [
+    "SPDX:GPL-3.0-or-later",
+]
+#wheels = [
+#    "./wheels/inputs-0.5-py2.py3-none-any.whl"
+#]
+[build]
+paths_exclude_pattern = [
+  "__pycache__/",
+  ".*",
+  "*.zip",
+    ".idea",
+    "*.blend",
+  "test"
+]
