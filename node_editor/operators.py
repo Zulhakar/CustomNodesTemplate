@@ -77,7 +77,7 @@ class NODE_OT_my_make_group(bpy.types.Operator):
 
         group_node = old_tree.nodes.new("GroupNodeObm")
         group_node.node_tree = new_tree
-        group_node.all_trees = new_tree
+        group_node.target_tree = new_tree
         group_node.parent_node_tree = bpy.data.node_groups[old_tree.name]
         group_node.location = selected[0].location
 
@@ -88,20 +88,22 @@ class NODE_OT_my_make_group(bpy.types.Operator):
         group_node.group_input_node = new_input_node.name
         group_node.group_output_node = new_output_node.name
 
-        new_link_list = []
+        old_tree_new_link_list = []
         group_input_socket_index = 0
+        group_output_socket_index = 0
         for link in old_tree.links:
             if link.from_node not in selected and link.to_node in selected:
                 new_sock = new_tree.interface.new_socket(link.to_socket.bl_label, socket_type=link.to_socket.bl_idname)
 
                 # new_sock2 = group_node.inputs.new(link.to_socket.bl_idname, link.from_socket.bl_label)
-                # new_link_list.append((new_sock2, link.from_socket))
+                old_tree_new_link_list.append((group_node.inputs[group_input_socket_index], link.from_socket))
                 #
                 tmp_node = get_node_by_name(new_tree, new_names_dict[link.to_node.name])
                 new_tree.links.new(new_input_node.outputs[group_input_socket_index],
                                    tmp_node.inputs[
                                        get_index_of_socket(link.to_node, link.to_socket)[0]]).is_valid = True
                 group_input_socket_index += 1
+
             elif link.to_node not in selected and link.from_node in selected:
                 new_sock = new_tree.interface.new_socket(link.to_socket.bl_label, socket_type=link.to_socket.bl_idname,
                                                          in_out="OUTPUT")
@@ -109,11 +111,12 @@ class NODE_OT_my_make_group(bpy.types.Operator):
                 #new_sock2 = group_node.outputs.new(link.to_socket.bl_idname, link.to_socket.bl_label)
                 # new_link = old_tree.links.new(new_sock2, link.from_socket)
                 # new_link_list.append((link.to_socket, new_sock2))
-
+                old_tree_new_link_list.append((group_node.outputs[group_output_socket_index], link.to_socket))
                 new_tree.links.new(get_node_by_name(new_tree, new_names_dict[link.from_node.name]).outputs[
                                        get_index_of_socket(link.from_node, link.from_socket)[0]],
                                    new_output_node.inputs[
                                        get_index_of_socket(link.to_node, link.to_socket)[0]]).is_valid = True
+                group_output_socket_index += 1
 
             elif link.to_node in selected and link.from_node in selected:
                 new_tree.links.new(get_node_by_name(new_tree, new_names_dict[link.from_node.name]).outputs[
@@ -121,7 +124,7 @@ class NODE_OT_my_make_group(bpy.types.Operator):
                                    get_node_by_name(new_tree, new_names_dict[link.to_node.name]).inputs[
                                        get_index_of_socket(link.to_node, link.to_socket)[0]]).is_valid = True
 
-        for link_tupel in new_link_list:
+        for link_tupel in old_tree_new_link_list:
             old_tree.links.new(link_tupel[0], link_tupel[1]).is_valid = True
 
         change_socket_shape(new_input_node)
