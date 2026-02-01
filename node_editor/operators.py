@@ -93,18 +93,23 @@ class NODE_OT_my_make_group(bpy.types.Operator):
         for link in old_tree.links:
             if link.from_node not in selected and link.to_node in selected:
                 new_sock = new_tree.interface.new_socket(link.to_socket.bl_label, socket_type=link.to_socket.bl_idname)
-                #new_sock2 = group_node.inputs.new(link.to_socket.bl_idname, link.from_socket.bl_label)
-                #new_link_list.append((new_sock2, link.from_socket))
+
+                # new_sock2 = group_node.inputs.new(link.to_socket.bl_idname, link.from_socket.bl_label)
+                # new_link_list.append((new_sock2, link.from_socket))
+                #
+                tmp_node = get_node_by_name(new_tree, new_names_dict[link.to_node.name])
                 new_tree.links.new(new_input_node.outputs[group_input_socket_index],
-                                   get_node_by_name(new_tree, new_names_dict[link.to_node.name]).inputs[
+                                   tmp_node.inputs[
                                        get_index_of_socket(link.to_node, link.to_socket)[0]]).is_valid = True
                 group_input_socket_index += 1
             elif link.to_node not in selected and link.from_node in selected:
                 new_sock = new_tree.interface.new_socket(link.to_socket.bl_label, socket_type=link.to_socket.bl_idname,
                                                          in_out="OUTPUT")
+
                 #new_sock2 = group_node.outputs.new(link.to_socket.bl_idname, link.to_socket.bl_label)
                 # new_link = old_tree.links.new(new_sock2, link.from_socket)
-                #new_link_list.append((link.to_socket, new_sock2))
+                # new_link_list.append((link.to_socket, new_sock2))
+
                 new_tree.links.new(get_node_by_name(new_tree, new_names_dict[link.from_node.name]).outputs[
                                        get_index_of_socket(link.from_node, link.from_socket)[0]],
                                    new_output_node.inputs[
@@ -164,7 +169,7 @@ class NODE_OT_my_group_tab(bpy.types.Operator):
 
         if group_nodes:
             node = group_nodes[0]
-            inner = node.all_trees
+            inner = node.target_tree
             if inner:
                 space.node_tree = inner
                 return {'FINISHED'}

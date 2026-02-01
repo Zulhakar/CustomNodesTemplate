@@ -16,8 +16,6 @@ class ConstantsMenu(bpy.types.Menu):
         node_add_menu.add_node_type(layout, "ObmVectorNodeType")
         node_add_menu.add_node_type(layout, "ObmCombineXyzNodeType")
 
-
-
 class InputMenu(bpy.types.Menu):
     bl_label = 'Input'
     bl_idname = 'NODE_MT_Obm_Input'

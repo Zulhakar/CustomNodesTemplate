@@ -39,6 +39,8 @@ class ObCoreTree(bpy.types.NodeTree):
     group_node_input_list: bpy.props.CollectionProperty(type=GroupSocketCollectionItem)
     group_node_output_list: bpy.props.CollectionProperty(type=GroupSocketCollectionItem)
 
+    was_fired : bpy.props.BoolProperty(default=False)
+
     def get_parent_group_nodes(self):
         #error if there are more than one TODO
         parent_group_nodes = []
@@ -55,19 +57,7 @@ class ObCoreTree(bpy.types.NodeTree):
     def update(self):
         if IS_DEBUG:
             print("update Node Tree:", self.name)
-        for link in list(self.links):
-            if link.to_socket.bl_idname == link.from_socket.bl_idname:
-                link.is_valid = True
-            elif link.to_socket.bl_idname == "FloatSocketType" and link.from_socket.bl_idname == "IntSocketType":
-                link.is_valid = True
-            elif link.to_socket.bl_idname == "IntSocketType" and link.from_socket.bl_idname == "FloatSocketType":
-                link.is_valid = True
-            if not link.is_valid:
-                if IS_DEBUG:
-                    print("invalid link removed:", link)
-                    print(link.to_socket.bl_idname, link.from_socket.bl_idname)
-                    print(link.to_node.name, link.from_node.name)
-                self.links.remove(link)
+        self.validate_links()
 
         for node in self.nodes:
             if node.bl_idname == "GroupNodeObm":
@@ -101,7 +91,21 @@ class ObCoreTree(bpy.types.NodeTree):
         self.handle_socks(inputs, True)
         self.handle_socks(outputs, False)
 
-    
+    def validate_links(self):
+        for link in list(self.links):
+            if link.to_socket.bl_idname == link.from_socket.bl_idname:
+                link.is_valid = True
+            elif link.to_socket.bl_idname == "FloatSocketType" and link.from_socket.bl_idname == "IntSocketType":
+                link.is_valid = True
+            elif link.to_socket.bl_idname == "IntSocketType" and link.from_socket.bl_idname == "FloatSocketType":
+                link.is_valid = True
+            if not link.is_valid:
+                if IS_DEBUG:
+                    print("invalid link removed:", link)
+                    print(link.to_socket.bl_idname, link.from_socket.bl_idname)
+                    print(link.to_node.name, link.from_node.name)
+                self.links.remove(link)
+
     def handle_socks(self, sockets: list[Any], are_inputs=True):
         if IS_DEBUG:
             print("handle_socks Node Tree:", self.name)
@@ -162,7 +166,7 @@ class ObCoreTree(bpy.types.NodeTree):
         for key, value in bpy.data.node_groups.items():
             for node_ in value.nodes:
                 if node_.bl_idname == "GroupNodeObm":
-                    if node_.all_trees == self:
+                    if node_.target_tree == self:
                         if is_input:
                             node_.inputs.clear()
                             for old_output in sockets:

@@ -4,6 +4,7 @@ from .node_tree import ObCoreTree, GroupStringCollectionItem, GroupSocketCollect
 from .menus import (ConstantsMenu, InputMenu, GroupMenu, menu_draw, draw_add_menu)
 from .operators import NODE_OT_my_group_tab
 
+#attention: the order matters
 import_classes_ = [GroupStringCollectionItem, GroupSocketCollectionItem, ConstantsMenu, InputMenu, GroupMenu, ObCoreTree]
 addon_keymaps = []
 

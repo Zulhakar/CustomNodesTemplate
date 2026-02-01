@@ -12,6 +12,8 @@ class ObmBasicSocket(NodeSocket):
     is_constant: bpy.props.BoolProperty()
     selected_node_group_name: bpy.props.StringProperty()
     node_group_name: bpy.props.StringProperty()
+    disable_socket_update : bpy.props.BoolProperty(default=False)
+
     def draw(self, context, layout, node, text):
         if self.is_constant:
             layout.alignment = 'EXPAND'
@@ -35,40 +37,32 @@ class ObmBasicSocket(NodeSocket):
 
         if self.node.bl_idname == "NodeGroupOutput":
             if self.selected_node_group_name != "":
-                node = self.node
-                tree = bpy.data.node_groups[self.selected_node_group_name]
-                tree2 = bpy.data.node_groups[self.node_group_name]
-                for node_ in tree.nodes:
-                    if node_.bl_idname == "GroupNodeObm":
-                        if node_.all_trees == tree2:
-                            #if node_.was_fired:
-                            sock_index = get_socket_index(node.inputs, self)
-                            if node_.outputs[sock_index].bl_idname != "FloatVectorFieldSocketType":
-                                node_.outputs[sock_index].input_value = self.input_value
-                                node_.was_fired = False
-                            else:
-                                for link in node_.outputs[sock_index].links:
-                                    link.to_socket.input_value.clear()
-                                    for item in node.inputs[sock_index].input_value:
-                                        new_item = link.to_socket.input_value.add()
-                                        new_item.value = item.value
-                                    for link2 in node_.outputs[sock_index].links:
-                                        link2.to_node.socket_update(link2.to_socket)
-                    # recursion...node_group update <--> instrument
-
-                    #elif node_.bl_idname == "NoteSequenceToSampleNodeType":
-                    #    if node_.node_tree == tree2:
-                    #        node_.inputs[0].input_value = node_.inputs[0].input_value
+                if not self.disable_socket_update:
+                    node = self.node
+                    tree = bpy.data.node_groups[self.selected_node_group_name]
+                    tree2 = bpy.data.node_groups[self.node_group_name]
+                    for node_ in tree.nodes:
+                        if node_.bl_idname == "GroupNodeObm":
+                            if node_.target_tree == tree2:
+                                sock_index = get_socket_index(node.inputs, self)
+                                if node_.outputs[sock_index].bl_idname != "FloatVectorFieldSocketType":
+                                    #node_.was_fired = True
+                                    if node_.was_fired:
+                                        node_.outputs[sock_index].input_value = self.input_value
+                                else:
+                                    for link in node_.outputs[sock_index].links:
+                                        link.to_socket.input_value.clear()
+                                        for item in node.inputs[sock_index].input_value:
+                                            new_item = link.to_socket.input_value.add()
+                                            new_item.value = item.value
+                                        for link2 in node_.outputs[sock_index].links:
+                                            link2.to_node.socket_update(link2.to_socket)
 
 
-        # ----------------------------------------------------------
 
-    # Socket color
     @classmethod
     def draw_color_simple(cls):
         return cls.sock_col
-
-    # Socket color
 
 
 class ObmNodeTreeInterfaceSocket(bpy.types.NodeTreeInterfaceSocket):
@@ -277,4 +271,3 @@ def unregister():
         except Exception as e:
             print(e)
             print(cls)
-    # unregister_class(FloatVectorFieldItem)
