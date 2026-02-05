@@ -1,12 +1,10 @@
 import bpy
 from ..basic_nodes import ConstantNodeCnt
-from ...core.constants import IS_DEBUG, CntSocketTypes
-
+from ...core.constants import IS_DEBUG, CntSocketTypes, VERSATILE_SOCKET_SHAPE
 
 class MathNodeCnt(ConstantNodeCnt):
     '''Basic Math operations'''
     bl_label = "Math"
-
     operations_enums = (
         ('ADD', 'Add', 'Add'),
         ('SUB', 'Subtract', 'Subtract'),
@@ -49,20 +47,13 @@ class MathNodeCnt(ConstantNodeCnt):
         self.inputs.new(CntSocketTypes.Float, "Float")
         self.outputs.new(CntSocketTypes.Float, "Float")
         super().init(context)
-
+        self.inputs[0].display_shape = VERSATILE_SOCKET_SHAPE
+        self.inputs[1].display_shape = VERSATILE_SOCKET_SHAPE
+        self.outputs[0].display_shape = VERSATILE_SOCKET_SHAPE
     def socket_update(self, socket):
         if socket != self.outputs[0]:
             self.operation_update()
 
-    def copy(self, node):
-        self.socket_update_disabled = True
-        super().copy(node)
-        self.operation = node.operation
-        for i, sock in enumerate(self.inputs):
-            self.inputs[i].inpput_value = node.inputs[i].input_value
-        for i, sock in enumerate(self.outputs):
-            self.outputs[i].input_value = node.outputs[i].input_value
-        self.socket_update_disabled = False
 
     def update(self):
         if self.mute:

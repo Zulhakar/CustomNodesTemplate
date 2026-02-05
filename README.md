@@ -1,2 +1,2 @@
-# CustomNodesTemplate
-A template to create Custom Nodes in Blender only with Python
+# Custom Nodes Template
+Create a Node Editor for Custom Nodes only with Python

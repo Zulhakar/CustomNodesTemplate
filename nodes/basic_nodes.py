@@ -1,33 +1,22 @@
 import bpy
 from ..core.constants import IS_DEBUG, SINGLE_VALUES_SOCKET_SHAPE, VERSATILE_SOCKET_SHAPE
 from ..core.constants import OB_TREE_TYPE, CntSocketTypes
-
+from ..core.helper import change_socket_shape
 
 class NodeCnt:
     socket_update_disabled: bpy.props.BoolProperty(default=False)
-
     def log(self, func_name):
         if IS_DEBUG:
             log_string = f"{self.bl_idname}-> {self.name}: {func_name} was called"
             print(log_string)
 
     def init(self, context):
-        for output in self.outputs:
-            if not output.is_multi_input:
-                if bpy.app.version < (5, 0, 1):
-                    output.display_shape = VERSATILE_SOCKET_SHAPE
-                else:
-                    output.display_shape = SINGLE_VALUES_SOCKET_SHAPE
-        for input in self.inputs:
-            if not input.is_multi_input:
-                if bpy.app.version < (5, 0, 1):
-                    input.display_shape = VERSATILE_SOCKET_SHAPE
-                else:
-                    input.display_shape = SINGLE_VALUES_SOCKET_SHAPE
+        self.log("init")
+        change_socket_shape(self)
 
     @classmethod
     def poll(cls, ntree):
-        return ntree.bl_idname == OB_TREE_TYPE
+        return ntree.bl_idname == OB_TREE_TYPE or ntree.bl_idname == "GeometryNodeTree"
 
     def copy(self, node):
         self.log("copy")
@@ -64,6 +53,8 @@ class NodeCnt:
 
     def update(self):
         self.log("update")
+        #this line inside copy crash blender but not inside copy which also called on copy function
+        change_socket_shape(self)
 
     def socket_update(self, socket):
         self.log("socket_update")
@@ -75,7 +66,7 @@ class NodeCnt:
         self.log("socket_value_update")
 
 
-class ConstantNodeCnt(NodeCnt, bpy.types.NodeCustomGroup):
+class ConstantNodeCnt(NodeCnt, bpy.types.Node):
     def socket_update(self, socket):
         super().socket_update(socket)
         if not self.mute:
@@ -87,63 +78,45 @@ class ConstantNodeCnt(NodeCnt, bpy.types.NodeCustomGroup):
                         else:
                             link.to_socket.input_value = self.outputs[0].input_value
 
+    def init(self, context):
+        super().init(context)
+        self.outputs[0].is_constant = True
 
 class ObjectNodeCnt(ConstantNodeCnt):
     '''Object Node'''
     bl_label = "Object"
-
     def init(self, context):
-        object_socket = self.outputs.new(CntSocketTypes.Object, "Object")
-        object_socket.is_constant = True
+        self.outputs.new(CntSocketTypes.Object, "Object")
         super().init(context)
 
 
 class FloatNodeCnt(ConstantNodeCnt):
     '''Float Value Node'''
     bl_label = "Value"
-
     def init(self, context):
-        float_socket = self.outputs.new(CntSocketTypes.Float, "Float")
-        float_socket.is_constant = True
+        self.outputs.new(CntSocketTypes.Float, "Float")
         super().init(context)
-
-    def copy(self, node):
-        self.socket_update_disabled = True
-        super().copy(node)
-        self.outputs[0].input_value = node.outputs[0].input_value
-        self.socket_update_disabled = False
 
 
 class IntNodeCnt(ConstantNodeCnt):
     '''Integer Node'''
     bl_label = "Integer"
-
     def init(self, context):
-        int_socket = self.outputs.new(CntSocketTypes.Integer, "Integer")
-        int_socket.is_constant = True
+        self.outputs.new(CntSocketTypes.Integer, "Integer")
         super().init(context)
 
 
 class StringNodeCnt(ConstantNodeCnt):
     '''String Node'''
     bl_label = "String"
-
     def init(self, context):
-        string_socket = self.outputs.new(CntSocketTypes.String, "String")
-        string_socket.is_constant = True
+        self.outputs.new(CntSocketTypes.String, "String")
         super().init(context)
 
 
 class BoolNodeCnt(ConstantNodeCnt):
-    # class BooleanNodeCnt(FunctionNodeInputBool):
     '''Boolean Value Node'''
     bl_label = "Boolean"
-
-    @classmethod
-    def poll(cls, ntree):
-        return ntree.bl_idname == OB_TREE_TYPE or ntree.bl_idname == "GeometryNodeTree"
-
     def init(self, context):
-        bool_socket = self.outputs.new(CntSocketTypes.Bool, "Boolean")
-        bool_socket.is_constant = True
+        self.outputs.new(CntSocketTypes.Bool, "Boolean")
         super().init(context)
