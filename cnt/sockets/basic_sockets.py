@@ -2,7 +2,7 @@ import bpy
 from bpy.types import NodeSocket, NodeTreeInterfaceSocket
 from bpy.utils import register_class, unregister_class
 
-from ..base.constants import (COLOR_OBJECT_SOCKET, COLOR_BLACK, COLOR_STRING_SOCKET, COLOR_INT_SOCKET, COLOR_FLOAT_SOCKET,
+from ...config import (COLOR_OBJECT_SOCKET, COLOR_BLACK, COLOR_STRING_SOCKET, COLOR_INT_SOCKET, COLOR_FLOAT_SOCKET,
                               COLOR_FLOAT_VECTOR_SOCKET, COLOR_EMPTY_SOCKET, COLOR_BOOL_SOCKET,
                               CntSocketTypes, cnt_sockets_list)
 from ..base.helper import get_socket_index

@@ -1,7 +1,6 @@
 import bpy
 from ..basic_nodes import ConstantNodeCnt
-from ...base.constants import CntSocketTypes, VERSATILE_SOCKET_SHAPE
-from ....config import IS_DEBUG
+from ....config import IS_DEBUG, CntSocketTypes, VERSATILE_SOCKET_SHAPE
 
 
 class MathNodeCnt(ConstantNodeCnt):

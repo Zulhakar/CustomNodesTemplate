@@ -1,7 +1,6 @@
 import bpy
-from ..base.constants import CntSocketTypes
 from ..base.helper import change_socket_shape
-from ...config import IS_DEBUG, OB_TREE_TYPE
+from ...config import IS_DEBUG, OB_TREE_TYPE, CntSocketTypes
 
 class NodeCnt:
     socket_update_disabled: bpy.props.BoolProperty(default=False)

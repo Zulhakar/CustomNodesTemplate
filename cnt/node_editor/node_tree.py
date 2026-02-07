@@ -1,8 +1,7 @@
 from typing import Any
 import bpy
 from ..base.helper import change_socket_shape
-from ..base.constants import CntSocketTypes
-from ...config import  IS_DEBUG, TREE_ICON
+from ...config import  IS_DEBUG, TREE_ICON,  CntSocketTypes, OB_TREE_TYPE, NODE_EDITOR_NAME
 
 
 class GroupStringCollectionItem(bpy.types.PropertyGroup):
@@ -30,7 +29,8 @@ def change_all_socket_shapes(tree):
         change_socket_shape(node)
 
 class CustomNodeTree(bpy.types.NodeTree):
-    bl_label = "Custom Nodes"
+    bl_idname = OB_TREE_TYPE
+    bl_label = NODE_EDITOR_NAME
     bl_icon = TREE_ICON
     bl_use_group_interface = False
     parent: bpy.props.PointerProperty(

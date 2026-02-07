@@ -1,12 +1,11 @@
 import bpy
 
-from ..base.constants import MAKE_GROUP_OT_IDNAME
 from ..base.helper import change_socket_shape
-from ...config import OB_TREE_TYPE
+from ...config import OB_TREE_TYPE, NEW_NODE_GROUP_NAME, MAKE_GROUP_OT_IDNAME
 
 def create_child_node_tree(old_tree, selected):
     new_tree = bpy.data.node_groups.new(
-        "Custom Node",
+        NEW_NODE_GROUP_NAME,
         OB_TREE_TYPE
     )
     input_node = new_tree.nodes.new("NodeGroupInput")

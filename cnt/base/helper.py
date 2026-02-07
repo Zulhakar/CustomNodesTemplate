@@ -1,6 +1,6 @@
 import bpy
-from .constants import VERSATILE_SOCKET_SHAPE, SINGLE_VALUES_SOCKET_SHAPE, FIELDS_SOCKET_SHAPE
-from .constants import CntSocketTypes
+from ...config import VERSATILE_SOCKET_SHAPE, SINGLE_VALUES_SOCKET_SHAPE, FIELDS_SOCKET_SHAPE
+from ...config import CntSocketTypes
 
 def get_socket_index(sockets, socket):
     for i , value in enumerate(sockets):
