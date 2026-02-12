@@ -28,7 +28,7 @@ class MathNodeCnt(ConstantNodeCnt):
         elif self.operation == "DIV":
             if self.inputs[1].input_value == 0.0:
                 import sys
-                self.outputs[0].input_value = sys.float_info.max
+                self.outputs[0].input_value = 0.0
             else:
                 self.outputs[0].input_value = (self.inputs[0].input_value / self.inputs[1].input_value)
         for link in self.outputs[0].links:

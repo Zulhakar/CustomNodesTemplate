@@ -4,6 +4,8 @@ from bpy.utils import unregister_class
 from .group_nodes.group_node import GroupNodeCnt
 from .basic_nodes import IntNodeCnt, FloatNodeCnt, StringNodeCnt, ObjectNodeCnt, BoolNodeCnt
 from .constant_nodes.math_node import MathNodeCnt
+from .link_nodes.gn_modifier_node import ModifierNode, GeometryGroupInputCollectionItem
+
 
 classes = [
     ObjectNodeCnt,
@@ -13,6 +15,8 @@ classes = [
     BoolNodeCnt,
     GroupNodeCnt,
     MathNodeCnt,
+    GeometryGroupInputCollectionItem,
+    ModifierNode
 
 ]
 

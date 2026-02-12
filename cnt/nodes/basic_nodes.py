@@ -2,8 +2,10 @@ import bpy
 from ..base.helper import change_socket_shape
 from ...config import IS_DEBUG, OB_TREE_TYPE, CntSocketTypes
 
+
 class NodeCnt:
     socket_update_disabled: bpy.props.BoolProperty(default=False)
+
     def log(self, func_name):
         if IS_DEBUG:
             log_string = f"{self.bl_idname}-> {self.name}: {func_name} was called"
@@ -15,7 +17,7 @@ class NodeCnt:
 
     @classmethod
     def poll(cls, ntree):
-        return ntree.bl_idname == OB_TREE_TYPE or ntree.bl_idname == "GeometryNodeTree"
+        return ntree.bl_idname == OB_TREE_TYPE or ntree.bl_idname == 'GeometryNodeTree'
 
     def copy(self, node):
         self.log("copy")
@@ -52,7 +54,6 @@ class NodeCnt:
 
     def update(self):
         self.log("update")
-        #this line inside copy crash blender but not inside copy which also called on copy function
         change_socket_shape(self)
 
     def socket_update(self, socket):
@@ -81,13 +82,16 @@ class ConstantNodeCnt(NodeCnt, bpy.types.Node):
 class ObjectNodeCnt(ConstantNodeCnt):
     '''Object Node'''
     bl_label = "Object"
+
     def init(self, context):
         self.outputs.new(CntSocketTypes.Object, "Object")
         super().init(context)
 
+
 class FloatNodeCnt(ConstantNodeCnt):
     '''Float Value Node'''
     bl_label = "Value"
+
     def init(self, context):
         self.outputs.new(CntSocketTypes.Float, "Float")
         self.outputs[0].is_constant = True
@@ -97,14 +101,17 @@ class FloatNodeCnt(ConstantNodeCnt):
 class IntNodeCnt(ConstantNodeCnt):
     '''Integer Node'''
     bl_label = "Integer"
+
     def init(self, context):
         self.outputs.new(CntSocketTypes.Integer, "Integer")
         self.outputs[0].is_constant = True
         super().init(context)
 
+
 class StringNodeCnt(ConstantNodeCnt):
     '''String Node'''
     bl_label = "String"
+
     def init(self, context):
         self.outputs.new(CntSocketTypes.String, "String")
         self.outputs[0].is_constant = True
@@ -114,6 +121,7 @@ class StringNodeCnt(ConstantNodeCnt):
 class BoolNodeCnt(ConstantNodeCnt):
     '''Boolean Value Node'''
     bl_label = "Boolean"
+
     def init(self, context):
         self.outputs.new(CntSocketTypes.Bool, "Boolean")
         self.outputs[0].is_constant = True

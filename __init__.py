@@ -18,17 +18,22 @@ def draw_add_menu(self, context):
     layout.menu(InputMenu.bl_idname)
     layout.menu(GroupMenu.bl_idname)
     node_add_menu.add_node_type(layout, "MathNodeCnt")
+    node_add_menu.add_node_type(layout, "ModifierNode")
+
 
 def register():
     register_basic_sockets()
     register_nodes()
     register_node_editor()
     bpy.types.NODE_MT_add.append(draw_add_menu)
+
+
 def unregister():
     bpy.types.NODE_MT_add.remove(draw_add_menu)
     unregister_basic_sockets()
     unregister_nodes()
     unregister_node_editor()
+
 
 if __name__ == "__main__":
     register()

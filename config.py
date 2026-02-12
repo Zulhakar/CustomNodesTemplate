@@ -7,9 +7,10 @@ NODE_EDITOR_NAME = "Custom Node Editor"
 TREE_ICON = 'GHOST_ENABLED'
 
 ########################################################################################################################
-#don't change this
+# don't change this
 from .cnt.base.constants import *
+
 CONSTANTS_MENU_IDNAME = f'NODE_MT_{APP_NAME_SHORT}_Constants'
 INPUT_MENU_IDNAME = f'NODE_MT_{APP_NAME_SHORT}_Input'
 GROUP_MENU_IDNAME = f'NOD_MT_{APP_NAME_SHORT}_Group'
-MAKE_GROUP_OT_IDNAME= f'node.{APP_NAME_SHORT}_make_group'
+MAKE_GROUP_OT_IDNAME = f'node.{APP_NAME_SHORT}_make_group'
