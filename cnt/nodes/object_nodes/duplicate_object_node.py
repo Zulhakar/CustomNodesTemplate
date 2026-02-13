@@ -52,3 +52,10 @@ class DuplicateObjectNode(ConstantNodeCnt):
     def copy(self, node):
         super().copy(node)
         self.obj = None
+
+    def free(self):
+        super().free()
+        if self.obj:
+            bpy.data.objects.remove(self.obj, do_unlink=True)
+        if self.outputs[0].input_value:
+            bpy.data.objects.remove(self.obj, do_unlink=True)
