@@ -3,16 +3,17 @@ from bpy.types import NodeSocket, NodeTreeInterfaceSocket
 from bpy.utils import register_class, unregister_class
 
 from ...config import (COLOR_OBJECT_SOCKET, COLOR_BLACK, COLOR_STRING_SOCKET, COLOR_INT_SOCKET, COLOR_FLOAT_SOCKET,
-                              COLOR_FLOAT_VECTOR_SOCKET, COLOR_EMPTY_SOCKET, COLOR_BOOL_SOCKET,
-                              CntSocketTypes, cnt_sockets_list)
+                       COLOR_FLOAT_VECTOR_SOCKET, COLOR_EMPTY_SOCKET, COLOR_BOOL_SOCKET,
+                       CntSocketTypes, cnt_sockets_list)
 from ..base.helper import get_socket_index
 from ...config import IS_DEBUG
+
 
 class NodeSocketCnt(NodeSocket):
     is_constant: bpy.props.BoolProperty()
     selected_node_group_name: bpy.props.StringProperty()
     node_group_name: bpy.props.StringProperty()
-    disable_socket_update : bpy.props.BoolProperty(default=False)
+    disable_socket_update: bpy.props.BoolProperty(default=False)
 
     def draw(self, context, layout, node, text):
         if self.is_constant:
@@ -46,7 +47,7 @@ class NodeSocketCnt(NodeSocket):
                             if node_.target_tree == tree2:
                                 sock_index = get_socket_index(node.inputs, self)
                                 if node_.outputs[sock_index].bl_idname != CntSocketTypes.FloatVectorField:
-                                    #node_.was_fired = True
+                                    # node_.was_fired = True
                                     if node_.was_fired:
                                         not_triggerd_from_group_node = False
                                         node_.outputs[sock_index].input_value = self.input_value
@@ -60,13 +61,13 @@ class NodeSocketCnt(NodeSocket):
                                             link2.to_node.socket_update(link2.to_socket)
                     if not_triggerd_from_group_node:
                         print("internal update TODO")
+
     @classmethod
     def draw_color_simple(cls):
         return cls.sock_col
 
 
 class NodeTreeInterfaceSocketCnt(bpy.types.NodeTreeInterfaceSocket):
-
     cnt_socket_type: bpy.props.EnumProperty(  # type: ignore
         name="Socket Type CNT"
         , items=cnt_sockets_list
@@ -93,11 +94,13 @@ class NodeTreeInterfaceSocketCnt(bpy.types.NodeTreeInterfaceSocket):
 class NodeSocketObjectCnt(NodeSocketCnt):
     bl_label = "Object"
     sock_col = COLOR_OBJECT_SOCKET
-    input_value: bpy.props.PointerProperty(update=lambda self, context: self.update_prop(), name="Object", type=bpy.types.Object)
+    input_value: bpy.props.PointerProperty(update=lambda self, context: self.update_prop(), name="Object",
+                                           type=bpy.types.Object)
 
 
 class NodeTreeInterfaceSocketObjectCnt(NodeTreeInterfaceSocketCnt):
     bl_socket_idname = 'NodeSocketObjectCnt'
+
     def draw_color(self, context, node):
         # cls.display_shape = "SQUARE"
         return COLOR_OBJECT_SOCKET
@@ -111,6 +114,7 @@ class NodeSocketFloatCnt(NodeSocketCnt):
 
 class NodeTreeInterfaceSocketFloatCnt(NodeTreeInterfaceSocketCnt):
     bl_socket_idname = 'NodeSocketFloatCnt'
+
     def draw_color(self, context, node):
         return COLOR_FLOAT_SOCKET
 
@@ -121,6 +125,7 @@ class NodeSocketFloatVectorCnt(NodeSocketCnt):
     sock_col = COLOR_FLOAT_VECTOR_SOCKET
 
     input_value: bpy.props.FloatVectorProperty(update=lambda self, context: self.update_prop(), name="FloatVector")
+
     def draw(self, context, layout, node, text):
         if self.is_constant:
             layout.alignment = 'EXPAND'
@@ -131,8 +136,10 @@ class NodeSocketFloatVectorCnt(NodeSocketCnt):
             else:
                 layout.prop(self, "input_value", text=text)
 
+
 class NodeTreeInterfaceSocketFloatVectorCnt(NodeTreeInterfaceSocketCnt):
     bl_socket_idname = 'NodeSocketFloatVectorCnt'
+
     def draw_color(self, context, node):
         return COLOR_FLOAT_VECTOR_SOCKET
 
@@ -153,6 +160,7 @@ class NodeSocketFloatVectorFieldCnt(NodeSocketCnt):
 
 class NodeTreeInterfaceSocketFloatVectorFieldCnt(NodeTreeInterfaceSocketCnt):
     bl_socket_idname = 'NodeSocketFloatVectorFieldCnt'
+
     def draw_color(self, context, node):
         return COLOR_FLOAT_VECTOR_SOCKET
 
@@ -165,6 +173,7 @@ class NodeSocketIntCnt(NodeSocketCnt):
 
 class NodeTreeInterfaceSocketIntCnt(NodeTreeInterfaceSocketCnt):
     bl_socket_idname = 'NodeSocketIntCnt'
+
     def draw_color(self, context, node):
         return COLOR_INT_SOCKET
 
@@ -177,6 +186,7 @@ class NodeSocketStringCnt(NodeSocketCnt):
 
 class NodeTreeInterfaceSocketStringCnt(NodeTreeInterfaceSocketCnt):
     bl_socket_idname = 'NodeSocketStringCnt'
+
     def draw_color(self, context, node):
         return COLOR_STRING_SOCKET
 
@@ -185,6 +195,7 @@ class NodeSocketBoolCnt(NodeSocketCnt):
     bl_label = 'Bool'
     sock_col = COLOR_BOOL_SOCKET
     input_value: bpy.props.BoolProperty(update=lambda self, context: self.update_prop(), name="Bool")
+
     def draw(self, context, layout, node, text):
         layout.alignment = 'LEFT'
         layout.prop(self, "input_value", text=text)
@@ -192,6 +203,7 @@ class NodeSocketBoolCnt(NodeSocketCnt):
 
 class NodeTreeInterfaceSocketBoolCnt(NodeTreeInterfaceSocketCnt):
     bl_socket_idname = 'NodeSocketBoolCnt'
+
     def draw_color(self, context, node):
         return COLOR_BOOL_SOCKET
 
@@ -205,7 +217,7 @@ classes = (
 
     NodeSocketFloatVectorCnt, NodeTreeInterfaceSocketFloatVectorCnt,
     NodeSocketFloatVectorFieldCnt, NodeTreeInterfaceSocketFloatVectorFieldCnt
-    )
+)
 
 
 def register():

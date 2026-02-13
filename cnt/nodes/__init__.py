@@ -3,9 +3,9 @@ from bpy.utils import register_class
 from bpy.utils import unregister_class
 from .group_nodes.group_node import GroupNodeCnt
 from .basic_nodes import IntNodeCnt, FloatNodeCnt, StringNodeCnt, ObjectNodeCnt, BoolNodeCnt
-from .constant_nodes.math_node import MathNodeCnt
-from .link_nodes.gn_modifier_node import ModifierNode, GeometryGroupInputCollectionItem
-
+from .util_nodes.math_node import MathNodeCnt
+from .object_nodes.gn_modifier_node import ModifierNode, GeometryGroupInputCollectionItem
+from .object_nodes.duplicate_object_node import DuplicateObjectNode
 
 classes = [
     ObjectNodeCnt,
@@ -16,8 +16,8 @@ classes = [
     GroupNodeCnt,
     MathNodeCnt,
     GeometryGroupInputCollectionItem,
-    ModifierNode
-
+    ModifierNode,
+    DuplicateObjectNode
 ]
 
 def register():

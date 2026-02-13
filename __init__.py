@@ -19,7 +19,7 @@ def draw_add_menu(self, context):
     layout.menu(GroupMenu.bl_idname)
     node_add_menu.add_node_type(layout, "MathNodeCnt")
     node_add_menu.add_node_type(layout, "ModifierNode")
-
+    node_add_menu.add_node_type(layout, "DuplicateObjectNode")
 
 def register():
     register_basic_sockets()
