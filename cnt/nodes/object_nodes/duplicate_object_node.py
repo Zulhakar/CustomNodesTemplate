@@ -48,6 +48,10 @@ class DuplicateObjectNode(ConstantNodeCnt):
                     self.__del_object_if_exit(self.obj.name)
                 self.obj = duplicate(self.inputs[0].input_value, True, True, self.inputs[2].default_value, self.inputs[1].input_value)
                 self.outputs[0].input_value = self.obj
+            else:
+                if self.obj:
+                    self.__del_object_if_exit(self.obj.name)
+                    self.obj = None
 
     def copy(self, node):
         super().copy(node)
@@ -59,3 +63,4 @@ class DuplicateObjectNode(ConstantNodeCnt):
             bpy.data.objects.remove(self.obj, do_unlink=True)
         if self.outputs[0].input_value:
             bpy.data.objects.remove(self.obj, do_unlink=True)
+

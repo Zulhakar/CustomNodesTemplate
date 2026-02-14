@@ -20,6 +20,9 @@ def draw_add_menu(self, context):
     node_add_menu.add_node_type(layout, "MathNodeCnt")
     node_add_menu.add_node_type(layout, "ModifierNode")
     node_add_menu.add_node_type(layout, "DuplicateObjectNode")
+    node_add_menu.add_node_type(layout, "SceneInfoNodeCnt")
+    node_add_menu.add_node_type(layout, "SwitchNodeCnt")
+
 
 def register():
     register_basic_sockets()

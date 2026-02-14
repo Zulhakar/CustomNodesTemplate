@@ -6,7 +6,8 @@ from .basic_nodes import IntNodeCnt, FloatNodeCnt, StringNodeCnt, ObjectNodeCnt,
 from .util_nodes.math_node import MathNodeCnt
 from .object_nodes.gn_modifier_node import ModifierNode, GeometryGroupInputCollectionItem
 from .object_nodes.duplicate_object_node import DuplicateObjectNode
-
+from .util_nodes.scene_info_node import SceneInfoNodeCnt
+from .util_nodes.switch_node import SwitchNodeCnt
 classes = [
     ObjectNodeCnt,
     FloatNodeCnt,
@@ -17,7 +18,9 @@ classes = [
     MathNodeCnt,
     GeometryGroupInputCollectionItem,
     ModifierNode,
-    DuplicateObjectNode
+    DuplicateObjectNode,
+    SceneInfoNodeCnt,
+    SwitchNodeCnt
 ]
 
 def register():
