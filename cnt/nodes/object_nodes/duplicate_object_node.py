@@ -38,7 +38,9 @@ class DuplicateObjectNode(ConstantNodeCnt):
     def __del_object_if_exit(self, object_name):
         if object_name in bpy.data.objects:
             obj = bpy.data.objects[object_name]
-            bpy.data.objects.remove(obj, do_unlink=True)
+            #obj.data.clear_geometry()
+            #mesh = obj.data
+            bpy.data.meshes.remove(obj.data)
 
     def socket_update(self, socket):
         super().socket_update(socket)
