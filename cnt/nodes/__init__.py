@@ -8,6 +8,8 @@ from .object_nodes.gn_modifier_node import ModifierNode, GeometryGroupInputColle
 from .object_nodes.duplicate_object_node import DuplicateObjectNode
 from .util_nodes.scene_info_node import SceneInfoNodeCnt
 from .util_nodes.switch_node import SwitchNodeCnt
+from .util_nodes.compare_node import CompareAndBoolNodeCnt
+
 classes = [
     ObjectNodeCnt,
     FloatNodeCnt,
@@ -20,7 +22,8 @@ classes = [
     ModifierNode,
     DuplicateObjectNode,
     SceneInfoNodeCnt,
-    SwitchNodeCnt
+    SwitchNodeCnt,
+    CompareAndBoolNodeCnt
 ]
 
 def register():
