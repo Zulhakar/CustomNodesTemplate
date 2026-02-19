@@ -23,6 +23,7 @@ def draw_add_menu(self, context):
     node_add_menu.add_node_type(layout, "SceneInfoNodeCnt")
     node_add_menu.add_node_type(layout, "SwitchNodeCnt")
     node_add_menu.add_node_type(layout, "CompareAndBoolNodeCnt")
+    node_add_menu.add_node_type(layout, "RealtimeValueNode")
 
 
 def register():

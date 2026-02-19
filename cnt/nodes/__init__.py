@@ -9,7 +9,7 @@ from .object_nodes.duplicate_object_node import DuplicateObjectNode
 from .util_nodes.scene_info_node import SceneInfoNodeCnt
 from .util_nodes.switch_node import SwitchNodeCnt
 from .util_nodes.compare_node import CompareAndBoolNodeCnt
-
+from .util_nodes.realtime_value_node import RealtimeValueNode
 classes = [
     ObjectNodeCnt,
     FloatNodeCnt,
@@ -23,7 +23,8 @@ classes = [
     DuplicateObjectNode,
     SceneInfoNodeCnt,
     SwitchNodeCnt,
-    CompareAndBoolNodeCnt
+    CompareAndBoolNodeCnt,
+    RealtimeValueNode
 ]
 
 def register():

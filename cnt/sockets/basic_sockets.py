@@ -197,8 +197,15 @@ class NodeSocketBoolCnt(NodeSocketCnt):
     input_value: bpy.props.BoolProperty(update=lambda self, context: self.update_prop(), name="Bool")
 
     def draw(self, context, layout, node, text):
-        layout.alignment = 'LEFT'
-        layout.prop(self, "input_value", text=text)
+        if self.is_constant:
+            layout.alignment = 'LEFT'
+            layout.prop(self, "input_value", text=text)
+        else:
+            if self.is_output or self.is_linked:
+                layout.label(text=text)
+            else:
+                layout.prop(self, "input_value", text=text)
+
 
 
 class NodeTreeInterfaceSocketBoolCnt(NodeTreeInterfaceSocketCnt):

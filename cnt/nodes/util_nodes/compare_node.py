@@ -61,29 +61,30 @@ class CompareAndBoolNodeCnt(ConstantNodeCnt):
     def operation_update(self):
         input1 = None
         input2 = None
-        output1 = self.outputs[0]
-        for input in self.inputs:
-            if not input.hide and not input1:
-                input1 = input
-                continue
-            if not input.hide and input1:
-                input2 = input
-                break
+        if len(self.outputs) > 0:
+            output1 = self.outputs[0]
+            for input in self.inputs:
+                if not input.hide and not input1:
+                    input1 = input
+                    continue
+                if not input.hide and input1:
+                    input2 = input
+                    break
 
-        if self.operation == "GREATER":
-            output1.input_value = input1.input_value > input2.input_value
-        elif self.operation == "LESS":
-            output1.input_value = input1.input_value < input2.input_value
-        elif self.operation == "EQUAL":
-            output1.input_value = input1.input_value == input2.input_value
-        elif self.operation == "NOT EQUAL":
-            output1.input_value = input1.input_value != input2.input_value
-        elif self.operation == "AND":
-            output1.input_value = input1.input_value and input2.input_value
-        elif self.operation == "OR":
-            output1.input_value = input1.input_value or input2.input_value
-        elif self.operation == "XOR":
-            output1.input_value = input1.input_value ^ input2.input_value
+            if self.operation == "GREATER":
+                output1.input_value = input1.input_value > input2.input_value
+            elif self.operation == "LESS":
+                output1.input_value = input1.input_value < input2.input_value
+            elif self.operation == "EQUAL":
+                output1.input_value = input1.input_value == input2.input_value
+            elif self.operation == "NOT EQUAL":
+                output1.input_value = input1.input_value != input2.input_value
+            elif self.operation == "AND":
+                output1.input_value = input1.input_value and input2.input_value
+            elif self.operation == "OR":
+                output1.input_value = input1.input_value or input2.input_value
+            elif self.operation == "XOR":
+                output1.input_value = input1.input_value ^ input2.input_value
 
     def draw_buttons(self, context, layout):
         if IS_DEBUG:
