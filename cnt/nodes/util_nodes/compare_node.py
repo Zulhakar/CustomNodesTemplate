@@ -5,7 +5,7 @@ from ....config import IS_DEBUG, CntSocketTypes, VERSATILE_SOCKET_SHAPE, cnt_soc
 
 class CompareAndBoolNodeCnt(ConstantNodeCnt):
     '''Compare and Bool operations in one Node'''
-    bl_label = "Compare and Bool"
+    bl_label = "Compare / Bool"
 
     operation: bpy.props.EnumProperty(  # type: ignore
         name="Operation"

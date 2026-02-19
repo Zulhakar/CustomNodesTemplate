@@ -42,8 +42,8 @@ class GeometryGroupInputCollectionItem(bpy.types.PropertyGroup):
 
 
 class ModifierNode(ConstantNodeCnt):
-    '''Get Object from Geometry Node Modifier'''
-    bl_label = "Modifier Object"
+    '''This Node control the Group Inputs of a Geometry Node Modifier'''
+    bl_label = "Geometry Modifier Object"
 
     node_tree: bpy.props.PointerProperty(
         name="Group",
