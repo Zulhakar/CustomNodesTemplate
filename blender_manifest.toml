@@ -1,9 +1,9 @@
 schema_version = "1.0.0"
 
 id = "custom_nodes_template"
-version = "0.1.0"
+version = "0.5.0"
 name = "Custom Nodes Template"
-tagline = "1. It's a Node Template 2. Spawn Objects from Geometry Modifiers"
+tagline = "1-Node Editor from scratch 2-Spawn Objects from Geo Modifiers"
 maintainer = "Zulhakar (ChangeGamer) <Ilineiros@proton.me>"
 type = "add-on"
 website = "https://github.com/Zulhakar/CustomNodesTemplate"
