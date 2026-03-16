@@ -22,36 +22,37 @@ class MathNodeCnt(ConstantNodeCnt):
         , update=lambda self, context: self.operation_update())
 
     def operation_update(self):
-        self.outputs[0].hide = False
-        self.outputs[1].hide = True
-        self.inputs[0].name = "Value"
-        self.inputs[1].name = "Value"
-        if self.operation == "ADD":
-            self.outputs[0].input_value = (self.inputs[0].input_value + self.inputs[1].input_value)
-        elif self.operation == "SUB":
-            self.outputs[0].input_value = (self.inputs[0].input_value - self.inputs[1].input_value)
-        elif self.operation == "MUL":
-            self.outputs[0].input_value = (self.inputs[0].input_value * self.inputs[1].input_value)
-        elif self.operation == "DIV":
-            if self.inputs[1].input_value == 0.0:
-                import sys
-                self.outputs[0].input_value = 0.0
-            else:
-                self.outputs[0].input_value = (self.inputs[0].input_value / self.inputs[1].input_value)
-        elif self.operation == "GREATER":
-            self.outputs[0].hide = True
-            self.outputs[1].hide = False
-            self.inputs[1].name = "Threshold"
-            self.outputs[1].input_value = (self.inputs[0].input_value > self.inputs[1].input_value)
-        elif self.operation == "LESS":
-            self.outputs[0].hide = True
-            self.outputs[1].hide = False
-            self.inputs[1].name = "Threshold"
-            self.outputs[1].input_value = (self.inputs[0].input_value < self.inputs[1].input_value)
-        elif self.operation == "EQUAL":
-            self.outputs[0].hide = True
-            self.outputs[1].hide = False
-            self.outputs[1].input_value = (self.inputs[0].input_value == self.inputs[1].input_value)
+        if len(self.outputs) > 0:
+            self.outputs[0].hide = False
+            self.outputs[1].hide = True
+            self.inputs[0].name = "Value"
+            self.inputs[1].name = "Value"
+            if self.operation == "ADD":
+                self.outputs[0].input_value = (self.inputs[0].input_value + self.inputs[1].input_value)
+            elif self.operation == "SUB":
+                self.outputs[0].input_value = (self.inputs[0].input_value - self.inputs[1].input_value)
+            elif self.operation == "MUL":
+                self.outputs[0].input_value = (self.inputs[0].input_value * self.inputs[1].input_value)
+            elif self.operation == "DIV":
+                if self.inputs[1].input_value == 0.0:
+                    import sys
+                    self.outputs[0].input_value = 0.0
+                else:
+                    self.outputs[0].input_value = (self.inputs[0].input_value / self.inputs[1].input_value)
+            elif self.operation == "GREATER":
+                self.outputs[0].hide = True
+                self.outputs[1].hide = False
+                self.inputs[1].name = "Threshold"
+                self.outputs[1].input_value = (self.inputs[0].input_value > self.inputs[1].input_value)
+            elif self.operation == "LESS":
+                self.outputs[0].hide = True
+                self.outputs[1].hide = False
+                self.inputs[1].name = "Threshold"
+                self.outputs[1].input_value = (self.inputs[0].input_value < self.inputs[1].input_value)
+            elif self.operation == "EQUAL":
+                self.outputs[0].hide = True
+                self.outputs[1].hide = False
+                self.outputs[1].input_value = (self.inputs[0].input_value == self.inputs[1].input_value)
 
     def draw_buttons(self, context, layout):
         if IS_DEBUG:
